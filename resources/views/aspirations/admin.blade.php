@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <title>Admin - SuaraKita</title>
 
     <style>
@@ -15,38 +19,39 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f7f5ee;
-            color: #26352c;
+            font-family: 'DM Sans', sans-serif;
+            background: #f8f6ef;
+            color: #29382e;
         }
 
         nav {
-            height: 72px;
+            min-height: 76px;
             background: white;
-            border-bottom: 1px solid #e5e2d8;
-
+            border-bottom: 1px solid #e8e4da;
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            padding: 0 7%;
+            padding: 14px 7%;
+            gap: 15px;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #315c43;
+            font-family: 'Lora', serif;
+            font-size: 25px;
+            font-weight: 600;
+            color: #315b43;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
         }
 
         .home-link {
             text-decoration: none;
-            color: #315c43;
+            color: #315b43;
+            font-size: 13px;
             font-weight: 600;
         }
 
@@ -54,13 +59,10 @@
             border: none;
             background: #f5e5e5;
             color: #9a4545;
-
             padding: 10px 15px;
-
             border-radius: 10px;
-
             cursor: pointer;
-
+            font-family: inherit;
             font-weight: 600;
         }
 
@@ -69,113 +71,166 @@
         }
 
         .container {
-            width: 90%;
+            width: 88%;
             max-width: 1100px;
-
-            margin: 55px auto;
+            margin: 55px auto 75px;
         }
 
         h1 {
+            font-family: 'Lora', serif;
             font-size: 36px;
-            margin-bottom: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
         .subtitle {
             color: #737b75;
-            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .message {
+            padding: 14px 17px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 18px;
         }
 
         .success {
-            background: #e4f0e5;
-            color: #315c43;
+            background: #e5efe5;
+            color: #315b43;
+        }
 
-            padding: 15px;
-
-            border-radius: 12px;
-
-            margin-bottom: 20px;
+        .error {
+            background: #fff0ed;
+            color: #a34f40;
         }
 
         .card {
             background: white;
-
-            border: 1px solid #e5e2d8;
-
+            border: 1px solid #e7e3d9;
             border-radius: 20px;
-
             padding: 25px;
-
             margin-bottom: 18px;
         }
 
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 13px;
+        }
+
         .category {
-            color: #6d9279;
+            display: inline-block;
+            background: #e7f0e7;
+            color: #54735e;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
 
-            font-size: 13px;
+        .status-badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
 
-            font-weight: bold;
+        .menunggu {
+            background: #f5eddc;
+            color: #876e40;
+        }
 
-            margin-bottom: 8px;
+        .diproses {
+            background: #e2edf0;
+            color: #4d6e78;
+        }
+
+        .selesai {
+            background: #e2eee4;
+            color: #477052;
         }
 
         h2 {
+            font-family: 'Lora', serif;
             font-size: 22px;
-
+            font-weight: 600;
             margin-bottom: 10px;
+            overflow-wrap: anywhere;
         }
 
         .description {
             color: #737b75;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            overflow-wrap: anywhere;
+        }
 
-            line-height: 1.6;
-
+        .extra-info {
+            color: #68756b;
+            font-size: 12px;
+            line-height: 1.8;
             margin-bottom: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .evidence {
+            display: block;
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
+        .status-heading {
+            display: block;
+            color: #35483b;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 9px;
         }
 
         .status-area {
             display: flex;
-
             align-items: center;
-
             gap: 10px;
-
             flex-wrap: wrap;
         }
 
         select {
+            min-width: 150px;
             padding: 11px 13px;
-
             border: 1px solid #d8ddd8;
-
             border-radius: 10px;
-
             background: white;
-
-            font-size: 14px;
-
+            color: #34473b;
+            font-family: inherit;
+            font-size: 13px;
             cursor: pointer;
         }
 
-        button,
-        .edit-button {
+        button, .edit-button {
             border: none;
-
             padding: 11px 16px;
-
             border-radius: 10px;
-
+            font-family: inherit;
+            font-size: 12px;
             font-weight: 600;
-
             cursor: pointer;
-
             text-decoration: none;
-
             display: inline-block;
         }
 
         .status-button {
-            background: #315c43;
-
+            background: #315b43;
             color: white;
         }
 
@@ -185,8 +240,7 @@
 
         .edit-button {
             background: #e8eee8;
-
-            color: #315c43;
+            color: #315b43;
         }
 
         .edit-button:hover {
@@ -195,7 +249,6 @@
 
         .delete-button {
             background: #f5e5e5;
-
             color: #9a4545;
         }
 
@@ -205,46 +258,90 @@
 
         .actions {
             display: flex;
-
+            align-items: center;
             gap: 10px;
-
-            margin-top: 15px;
-
+            margin-top: 20px;
+            padding-top: 17px;
+            border-top: 1px solid #edf0e9;
             flex-wrap: wrap;
         }
 
         .empty {
             background: white;
-
-            padding: 40px;
-
+            border: 1px solid #e7e3d9;
+            padding: 40px 25px;
             border-radius: 18px;
-
             text-align: center;
-
             color: #737b75;
+            font-size: 13px;
+        }
+
+        footer {
+            background: #28392e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .footer-logo {
+            font-family: 'Lora', serif;
+            font-size: 21px;
+            margin-bottom: 7px;
+        }
+
+        footer p {
+            color: #c6d0c8;
+            font-size: 11px;
         }
 
         @media (max-width: 700px) {
-
             nav {
-                padding: 0 5%;
+                padding: 14px 5%;
             }
 
             .nav-right {
-                gap: 10px;
+                gap: 12px;
             }
 
             .home-link {
-                display: none;
+                font-size: 12px;
             }
 
             .container {
                 width: 92%;
+                margin-top: 35px;
             }
 
             h1 {
                 font-size: 30px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .status-area {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .status-area select,
+            .status-area button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .logo {
+                font-size: 21px;
+            }
+
+            .home-link {
+                display: none;
             }
         }
     </style>
@@ -254,183 +351,210 @@
 
     <!-- NAVBAR -->
     <nav>
-
-        <div class="logo">
-            SuaraKita.
-        </div>
+        <div class="logo">SuaraKita.</div>
 
         <div class="nav-right">
-
-            <a
-                href="{{ route('aspirations.index') }}"
-                class="home-link"
-            >
+            <a href="{{ route('aspirations.index') }}" class="home-link">
                 ← Halaman Utama
             </a>
 
-            <form
-                action="{{ route('admin.logout') }}"
-                method="POST"
-            >
-
+            <form action="{{ route('admin.logout') }}" method="POST">
                 @csrf
 
-                <button
-                    type="submit"
-                    class="logout-button"
-                >
+                <button type="submit" class="logout-button">
                     Logout
                 </button>
-
             </form>
-
         </div>
-
     </nav>
 
+    <!-- KONTEN -->
+    <main class="container">
 
-    <!-- CONTENT -->
-    <div class="container">
-
-        <h1>
-            Kelola Aspirasi
-        </h1>
+        <h1>Kelola Aspirasi</h1>
 
         <p class="subtitle">
-            Kelola aspirasi siswa dan perbarui statusnya.
+            Kelola aspirasi siswa dan perbarui status perkembangannya.
         </p>
 
-
-        <!-- SUCCESS MESSAGE -->
+        <!-- PESAN SUKSES -->
         @if(session('success'))
-
-            <div class="success">
+            <div class="message success">
                 {{ session('success') }}
             </div>
-
         @endif
 
+        <!-- PESAN ERROR -->
+        @if(session('error'))
+            <div class="message error">
+                {{ session('error') }}
+            </div>
+        @endif
 
-        <!-- ASPIRATION LIST -->
+        <!-- VALIDASI -->
+        @if($errors->any())
+            <div class="message error">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- DAFTAR ASPIRASI -->
         @forelse($aspirations as $aspiration)
 
-            <div class="card">
+            <article class="card">
 
-                <!-- CATEGORY -->
-                <div class="category">
-                    {{ $aspiration->category }}
+                <div class="card-top">
+                    <span class="category">
+                        {{ $aspiration->category }}
+                    </span>
+
+                    @if($aspiration->status === 'Menunggu')
+                        <span class="status-badge menunggu">Menunggu</span>
+                    @elseif($aspiration->status === 'Diproses')
+                        <span class="status-badge diproses">Diproses</span>
+                    @else
+                        <span class="status-badge selesai">Selesai</span>
+                    @endif
                 </div>
 
+                <h2>{{ $aspiration->title }}</h2>
 
-                <!-- TITLE -->
-                <h2>
-                    {{ $aspiration->title }}
-                </h2>
-
-
-                <!-- DESCRIPTION -->
                 <p class="description">
                     {{ $aspiration->description }}
                 </p>
 
+                <!-- LOKASI DAN FOTO BUKTI -->
+                @if($aspiration->location || $aspiration->evidence_photo)
+                    <div class="extra-info">
 
-                <!-- STATUS -->
+                        @if($aspiration->location)
+                            <p>
+                                <strong>Lokasi:</strong>
+                                {{ $aspiration->location }}
+                            </p>
+                        @endif
+
+                        @if($aspiration->evidence_photo)
+                            <p><strong>Foto bukti:</strong></p>
+
+                            <a
+                                href="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    src="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                                    alt="Foto bukti aspirasi"
+                                    class="evidence"
+                                    loading="lazy"
+                                >
+                            </a>
+                        @endif
+
+                    </div>
+                @endif
+
+                <!-- FORM UBAH STATUS -->
                 <form
                     action="{{ route('aspirations.updateStatus', $aspiration->id) }}"
                     method="POST"
                 >
-
                     @csrf
-
                     @method('PATCH')
 
+                    <label for="status-{{ $aspiration->id }}" class="status-heading">
+                        Perbarui Status
+                    </label>
+
                     <div class="status-area">
-
-                        <select name="status">
-
+                        <select
+                            id="status-{{ $aspiration->id }}"
+                            name="status"
+                            required
+                        >
                             <option
                                 value="Menunggu"
-                                {{ $aspiration->status == 'Menunggu' ? 'selected' : '' }}
+                                {{ $aspiration->status === 'Menunggu' ? 'selected' : '' }}
                             >
                                 Menunggu
                             </option>
 
                             <option
                                 value="Diproses"
-                                {{ $aspiration->status == 'Diproses' ? 'selected' : '' }}
+                                {{ $aspiration->status === 'Diproses' ? 'selected' : '' }}
                             >
                                 Diproses
                             </option>
 
                             <option
                                 value="Selesai"
-                                {{ $aspiration->status == 'Selesai' ? 'selected' : '' }}
+                                {{ $aspiration->status === 'Selesai' ? 'selected' : '' }}
                             >
                                 Selesai
                             </option>
-
                         </select>
 
-
-                        <button
-                            type="submit"
-                            class="status-button"
-                        >
+                        <button type="submit" class="status-button">
                             Simpan Status
                         </button>
-
                     </div>
-
                 </form>
 
-
-                <!-- EDIT & DELETE -->
+                <!-- AKSI -->
                 <div class="actions">
 
                     <!-- EDIT -->
                     <a
-                        href="{{ route('aspirations.edit', $aspiration->id) }}"
+                        href="{{ route('aspirations.index') }}#kirim"
                         class="edit-button"
+                        title="Form edit membutuhkan kode rahasia dari pemilik aspirasi"
                     >
-                        ✎ Edit
+                        ← Ke Form Aspirasi
                     </a>
 
-
-                    <!-- DELETE -->
-                    <form
-                        action="{{ route('aspirations.destroy', $aspiration->id) }}"
-                        method="POST"
-                        onsubmit="return confirm('Yakin ingin menghapus aspirasi ini?')"
-                    >
-
-                        @csrf
-
-                        @method('DELETE')
-
-                        <button
-                            type="submit"
-                            class="delete-button"
+                    <!-- HAPUS HANYA JIKA SELESAI -->
+                    @if($aspiration->status === 'Selesai')
+                        <form
+                            action="{{ route('aspirations.destroy', $aspiration->id) }}"
+                            method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus aspirasi yang sudah selesai ini?')"
                         >
-                            Hapus
-                        </button>
+                            @csrf
+                            @method('DELETE')
 
-                    </form>
+                            <button type="submit" class="delete-button">
+                                Hapus Aspirasi
+                            </button>
+                        </form>
+                    @else
+                        <span class="extra-info">
+                            Aspirasi hanya bisa dihapus setelah berstatus Selesai.
+                        </span>
+                    @endif
 
                 </div>
 
-            </div>
+            </article>
 
         @empty
 
             <div class="empty">
-
                 Belum ada aspirasi yang masuk.
-
             </div>
 
         @endforelse
 
-    </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">SuaraKita.</div>
+        <p>Kelola aspirasi untuk lingkungan sekolah yang lebih baik.</p>
+    </footer>
 
 </body>
 

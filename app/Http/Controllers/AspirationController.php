@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Aspiration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AspirationController extends Controller
 {
-    // READ
+    // HALAMAN UTAMA
     public function index()
     {
         $aspirations = Aspiration::latest()->get();
@@ -15,39 +18,63 @@ class AspirationController extends Controller
         return view('aspirations.index', compact('aspirations'));
     }
 
-    // CREATE
+    // KIRIM ASPIRASI
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
+            'location' => 'nullable|string|max:255',
+            'evidence_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        // Kode ini diberikan kepada pengirim satu kali.
+        $editCode = Str::random(12);
+
+        $photoPath = null;
+
+        if ($request->hasFile('evidence_photo')) {
+            $photoPath = $request->file('evidence_photo')
+                ->store('aspirations', 'public');
+        }
+
         Aspiration::create([
-            'title' => $request->title,
-            'category' => $request->category,
-            'description' => $request->description,
+            'title' => $validated['title'],
+            'category' => $validated['category'],
+            'description' => $validated['description'],
+            'location' => $validated['location'] ?? null,
+            'evidence_photo' => $photoPath,
+            'edit_token' => Hash::make($editCode),
             'status' => 'Menunggu',
             'votes' => 0,
         ]);
 
         return redirect()
             ->route('aspirations.index')
-            ->with('success', 'Aspirasi berhasil dikirim!');
+            ->with('success', 'Aspirasi berhasil dikirim!')
+            ->with('edit_code', $editCode);
     }
 
     // HALAMAN ADMIN
     public function admin()
     {
+        if (!session('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
         $aspirations = Aspiration::latest()->get();
 
         return view('aspirations.admin', compact('aspirations'));
     }
 
-    // UPDATE STATUS
+    // UBAH STATUS
     public function updateStatus(Request $request, $id)
     {
+        if (!session('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
         $request->validate([
             'status' => 'required|in:Menunggu,Diproses,Selesai',
         ]);
@@ -63,40 +90,114 @@ class AspirationController extends Controller
             ->with('success', 'Status berhasil diperbarui!');
     }
 
-    // HALAMAN EDIT
-    public function edit($id)
+    // HALAMAN EDIT DENGAN KODE RAHASIA
+    public function edit(Request $request, $id)
+    {
+        $aspiration = Aspiration::findOrFail($id);
+        $code = $request->query('code');
+
+        if (
+            !$code ||
+            !$aspiration->edit_token ||
+            !Hash::check($code, $aspiration->edit_token)
+        ) {
+            abort(403, 'Kode edit salah atau tidak tersedia.');
+        }
+
+        return view('aspirations.edit', compact('aspiration', 'code'));
+    }
+
+    // SIMPAN PERUBAHAN ASPIRASI
+    public function update(Request $request, $id)
     {
         $aspiration = Aspiration::findOrFail($id);
 
-        return view('aspirations.edit', compact('aspiration'));
-    }
+        $code = $request->input('code');
 
-    // UPDATE
-    public function update(Request $request, $id)
-    {
-        $request->validate([
+        if (
+            !$code ||
+            !$aspiration->edit_token ||
+            !Hash::check($code, $aspiration->edit_token)
+        ) {
+            abort(403, 'Kode edit salah atau tidak tersedia.');
+        }
+
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string',
+            'location' => 'nullable|string|max:255',
+            'evidence_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $aspiration = Aspiration::findOrFail($id);
+        $data = [
+            'title' => $validated['title'],
+            'category' => $validated['category'],
+            'description' => $validated['description'],
+            'location' => $validated['location'] ?? null,
+        ];
 
-        $aspiration->update([
-            'title' => $request->title,
-            'category' => $request->category,
-            'description' => $request->description,
-        ]);
+        if ($request->hasFile('evidence_photo')) {
+            if ($aspiration->evidence_photo) {
+                Storage::disk('public')->delete(
+                    $aspiration->evidence_photo
+                );
+            }
+
+            $data['evidence_photo'] = $request->file('evidence_photo')
+                ->store('aspirations', 'public');
+        }
+
+        $aspiration->update($data);
 
         return redirect()
-            ->route('aspirations.admin')
+            ->route('aspirations.index')
             ->with('success', 'Aspirasi berhasil diperbarui!');
     }
 
-    // DELETE
-    public function destroy($id)
+    // UPVOTE: SATU KALI PER SESI BROWSER
+    public function upvote($id)
     {
         $aspiration = Aspiration::findOrFail($id);
+
+        $votedIds = session('voted_aspirations', []);
+
+        if (in_array($aspiration->id, $votedIds)) {
+            return redirect()
+                ->route('aspirations.index')
+                ->with('error', 'Kamu sudah memberikan dukungan.');
+        }
+
+        $aspiration->increment('votes');
+
+        $votedIds[] = $aspiration->id;
+        session(['voted_aspirations' => $votedIds]);
+
+        return redirect()
+            ->route('aspirations.index')
+            ->with('success', 'Dukungan berhasil diberikan!');
+    }
+
+    // HAPUS HANYA JIKA STATUS SELESAI
+    public function destroy($id)
+    {
+        if (!session('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
+        $aspiration = Aspiration::findOrFail($id);
+
+        if ($aspiration->status !== 'Selesai') {
+            return redirect()
+                ->route('aspirations.admin')
+                ->with('error', 'Aspirasi hanya dapat dihapus jika statusnya Selesai.');
+        }
+
+        if ($aspiration->evidence_photo) {
+            Storage::disk('public')->delete(
+                $aspiration->evidence_photo
+            );
+        }
 
         $aspiration->delete();
 

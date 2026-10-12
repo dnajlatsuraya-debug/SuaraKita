@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aspiration extends Model
 {
+    protected $table = 'aspirations';
+
     protected $guarded = [];
+
+    protected $casts = [
+        'votes' => 'integer',
+    ];
 }

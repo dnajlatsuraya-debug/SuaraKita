@@ -1,10 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Edit Aspirasi - SuaraKita</title>
 
     <style>
@@ -76,9 +75,7 @@
             margin-bottom: 8px;
         }
 
-        input,
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
             padding: 14px;
             border: 1px solid #d8ddd8;
@@ -93,9 +90,7 @@
             resize: vertical;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
+        input:focus, select:focus, textarea:focus {
             border-color: #6d9279;
         }
 
@@ -131,61 +126,62 @@
             border-radius: 12px;
             margin-bottom: 20px;
         }
+
+        .hint {
+            font-size: 13px;
+            color: #737b75;
+            margin-top: 7px;
+        }
+
+        @media (max-width: 600px) {
+            .box {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .buttons {
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
 
 <body>
-
 <nav>
-
-    <div class="logo">
-        SuaraKita.
-    </div>
-
-    <a href="{{ route('aspirations.admin') }}">
-        ← Kembali
-    </a>
-
+    <div class="logo">SuaraKita.</div>
+    <a href="{{ route('aspirations.index') }}">← Kembali</a>
 </nav>
 
 <div class="container">
-
     <div class="box">
-
         <h1>Edit Aspirasi</h1>
-
-        <p class="subtitle">
-            Perbarui informasi aspirasi.
-        </p>
+        <p class="subtitle">Perbarui informasi aspirasi kamu.</p>
 
         @if($errors->any())
-
             <div class="errors">
-
                 <ul>
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-
             </div>
-
         @endif
 
         <form
             action="{{ route('aspirations.update', $aspiration->id) }}"
             method="POST"
+            enctype="multipart/form-data"
         >
-
             @csrf
             @method('PUT')
 
+            <input type="hidden" name="code" value="{{ $code }}">
+
             <div class="field">
-
-                <label for="title">
-                    Judul Aspirasi
-                </label>
-
+                <label for="title">Judul Aspirasi</label>
                 <input
                     type="text"
                     id="title"
@@ -193,85 +189,68 @@
                     value="{{ old('title', $aspiration->title) }}"
                     required
                 >
-
             </div>
 
             <div class="field">
-
-                <label for="category">
-                    Kategori
-                </label>
-
+                <label for="category">Kategori</label>
                 <select id="category" name="category" required>
-
-                    <option value="Fasilitas"
-                        {{ old('category', $aspiration->category) == 'Fasilitas' ? 'selected' : '' }}>
-                        Fasilitas
-                    </option>
-
-                    <option value="Kebersihan"
-                        {{ old('category', $aspiration->category) == 'Kebersihan' ? 'selected' : '' }}>
-                        Kebersihan
-                    </option>
-
-                    <option value="Kegiatan"
-                        {{ old('category', $aspiration->category) == 'Kegiatan' ? 'selected' : '' }}>
-                        Kegiatan
-                    </option>
-
-                    <option value="Akademik"
-                        {{ old('category', $aspiration->category) == 'Akademik' ? 'selected' : '' }}>
-                        Akademik
-                    </option>
-
-                    <option value="Keamanan"
-                        {{ old('category', $aspiration->category) == 'Keamanan' ? 'selected' : '' }}>
-                        Keamanan
-                    </option>
-
-                    <option value="Lainnya"
-                        {{ old('category', $aspiration->category) == 'Lainnya' ? 'selected' : '' }}>
-                        Lainnya
-                    </option>
-
+                    @foreach(['Fasilitas', 'Kebersihan', 'Kegiatan', 'Akademik', 'Keamanan', 'Lainnya'] as $category)
+                        <option
+                            value="{{ $category }}"
+                            {{ old('category', $aspiration->category) == $category ? 'selected' : '' }}
+                        >
+                            {{ $category }}
+                        </option>
+                    @endforeach
                 </select>
-
             </div>
 
             <div class="field">
-
-                <label for="description">
-                    Isi Aspirasi
-                </label>
-
+                <label for="description">Isi Aspirasi</label>
                 <textarea
                     id="description"
                     name="description"
                     required
                 >{{ old('description', $aspiration->description) }}</textarea>
+            </div>
 
+            <div class="field">
+                <label for="location">Lokasi (opsional)</label>
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value="{{ old('location', $aspiration->location) }}"
+                    placeholder="Contoh: ruang kelas XI PPLG 1"
+                >
+            </div>
+
+            <div class="field">
+                <label for="evidence_photo">Foto Bukti (opsional)</label>
+
+                @if($aspiration->evidence_photo)
+                    <p class="hint">Foto bukti sudah tersedia. Pilih file baru jika ingin menggantinya.</p>
+                @endif
+
+                <input
+                    type="file"
+                    id="evidence_photo"
+                    name="evidence_photo"
+                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                >
+
+                <p class="hint">Format JPG, JPEG, atau PNG. Maksimal 2 MB.</p>
             </div>
 
             <div class="buttons">
-
-                <a
-                    href="{{ route('aspirations.admin') }}"
-                    class="cancel"
-                >
+                <a href="{{ route('aspirations.index') }}" class="cancel">
                     Batal
                 </a>
 
-                <button type="submit">
-                    Simpan Perubahan
-                </button>
-
+                <button type="submit">Simpan Perubahan</button>
             </div>
-
         </form>
-
     </div>
-
 </div>
-
 </body>
 </html>

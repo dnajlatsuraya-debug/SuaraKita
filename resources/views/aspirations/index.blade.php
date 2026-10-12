@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,7 +7,6 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <title>SuaraKita</title>
@@ -23,8 +23,6 @@
             color: #29382e;
             font-family: 'DM Sans', sans-serif;
         }
-
-        /* NAVBAR */
 
         nav {
             height: 76px;
@@ -57,20 +55,40 @@
             background: #eef3ed;
         }
 
-        /* ALERT */
-
-        .success {
+        .success, .error, .edit-code-box {
             width: 84%;
             max-width: 1150px;
-            margin: 25px auto 0;
-            background: #e5efe5;
-            color: #315b43;
+            margin: 20px auto 0;
             padding: 14px 18px;
             border-radius: 12px;
             font-size: 13px;
+            line-height: 1.8;
         }
 
-        /* HERO */
+        .success {
+            background: #e5efe5;
+            color: #315b43;
+        }
+
+        .error {
+            background: #fff0ed;
+            color: #a34f40;
+        }
+
+        .edit-code-box {
+            background: #edf4eb;
+            color: #315b43;
+            border: 1px solid #cbdcca;
+        }
+
+        .edit-code-box code {
+            display: inline-block;
+            padding: 5px 9px;
+            background: white;
+            border-radius: 7px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
 
         .hero {
             width: 84%;
@@ -128,8 +146,6 @@
             background: #264a35;
         }
 
-        /* HERO ILLUSTRATION */
-
         .hero-visual {
             height: 330px;
             background: #e4ede2;
@@ -175,8 +191,6 @@
             width: 82%;
         }
 
-        /* STATS */
-
         .stats {
             width: 84%;
             max-width: 1150px;
@@ -206,8 +220,6 @@
             margin-top: 4px;
         }
 
-        /* MAIN CONTENT */
-
         .content {
             width: 84%;
             max-width: 1150px;
@@ -233,8 +245,6 @@
             margin-bottom: 22px;
         }
 
-        /* FORM */
-
         .form-card {
             background: white;
             border: 1px solid #e6e2d8;
@@ -254,9 +264,7 @@
             margin-bottom: 8px;
         }
 
-        input,
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
             border: 1px solid #dfe3de;
             background: #fcfcfa;
@@ -268,9 +276,7 @@
             outline: none;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
+        input:focus, select:focus, textarea:focus {
             border-color: #8da995;
             background: white;
         }
@@ -278,6 +284,13 @@
         textarea {
             height: 125px;
             resize: vertical;
+        }
+
+        .hint {
+            color: #7a827d;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 7px;
         }
 
         .submit {
@@ -297,8 +310,6 @@
             background: #264a35;
         }
 
-        /* ASPIRATION LIST */
-
         .list {
             display: flex;
             flex-direction: column;
@@ -316,6 +327,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 11px;
         }
@@ -359,10 +371,68 @@
             margin-bottom: 7px;
         }
 
-        .aspiration p {
+        .aspiration > p {
             color: #737c76;
             font-size: 12px;
             line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .extra-info {
+            margin-top: 12px;
+            color: #68756b;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .evidence {
+            display: block;
+            max-width: 100%;
+            max-height: 220px;
+            margin-top: 8px;
+            border-radius: 12px;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 13px;
+            border-top: 1px solid #edf0e9;
+        }
+
+        .card-actions form {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .code-input {
+            width: 145px;
+            padding: 9px 10px;
+            font-size: 12px;
+        }
+
+        .action-button {
+            display: inline-block;
+            border: 1px solid #dce4dc;
+            background: #f7f9f5;
+            color: #315b43;
+            text-decoration: none;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: #e7f0e7;
         }
 
         .empty {
@@ -374,8 +444,6 @@
             color: #7a827d;
             font-size: 13px;
         }
-
-        /* FOOTER */
 
         footer {
             background: #28392e;
@@ -394,8 +462,6 @@
             color: #c6d0c8;
             font-size: 11px;
         }
-
-        /* RESPONSIVE */
 
         @media (max-width: 850px) {
             .hero {
@@ -416,7 +482,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .success {
+            .success, .error, .edit-code-box {
                 width: 90%;
             }
         }
@@ -446,6 +512,18 @@
                 width: 175px;
                 height: 210px;
             }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .heading {
+                font-size: 25px;
+            }
+
+            .aspiration {
+                padding: 18px;
+            }
         }
     </style>
 </head>
@@ -461,20 +539,44 @@
         </a>
     </nav>
 
-
-    <!-- SUCCESS MESSAGE -->
+    <!-- PESAN SUKSES -->
     @if(session('success'))
         <div class="success">
             {{ session('success') }}
         </div>
     @endif
 
+    <!-- PESAN ERROR -->
+    @if(session('error'))
+        <div class="error">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- VALIDASI -->
+    @if($errors->any())
+        <div class="error">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- KODE EDIT RAHASIA -->
+    @if(session('edit_code'))
+        <div class="edit-code-box">
+            <strong>Aspirasi berhasil dikirim!</strong>
+            <p>Simpan kode rahasia berikut untuk mengedit aspirasi kamu.</p>
+            <p><code>{{ session('edit_code') }}</code></p>
+            <p>Jangan bagikan kode ini kepada orang lain.</p>
+        </div>
+    @endif
 
     <!-- HERO -->
     <section class="hero">
-
         <div class="hero-text">
-
             <div class="eyebrow">
                 SUARAKITA • ASPIRASI SISWA
             </div>
@@ -493,252 +595,232 @@
             <a href="#kirim" class="hero-button">
                 Sampaikan Aspirasi →
             </a>
-
         </div>
-
 
         <div class="hero-visual">
-
             <div class="paper">
-
                 <div class="paper-title"></div>
-
                 <div class="paper-line medium"></div>
                 <div class="paper-line"></div>
                 <div class="paper-line short"></div>
                 <div class="paper-line medium"></div>
                 <div class="paper-line"></div>
                 <div class="paper-line short"></div>
-
             </div>
-
         </div>
-
     </section>
 
-
-    <!-- STATS -->
+    <!-- STATISTIK -->
     <section class="stats">
-
         <div class="stat">
-            <div class="stat-number">
-                {{ $aspirations->count() }}
-            </div>
-            <div class="stat-label">
-                Total Aspirasi
-            </div>
+            <div class="stat-number">{{ $aspirations->count() }}</div>
+            <div class="stat-label">Total Aspirasi</div>
         </div>
 
         <div class="stat">
             <div class="stat-number">
                 {{ $aspirations->where('status', 'Diproses')->count() }}
             </div>
-            <div class="stat-label">
-                Sedang Diproses
-            </div>
+            <div class="stat-label">Sedang Diproses</div>
         </div>
 
         <div class="stat">
             <div class="stat-number">
                 {{ $aspirations->where('status', 'Selesai')->count() }}
             </div>
-            <div class="stat-label">
-                Aspirasi Selesai
-            </div>
+            <div class="stat-label">Aspirasi Selesai</div>
         </div>
-
     </section>
 
-
-    <!-- CONTENT -->
+    <!-- KONTEN UTAMA -->
     <section class="content" id="kirim">
 
-        <!-- FORM -->
+        <!-- FORM ASPIRASI -->
         <div>
-
-            <h2 class="heading">
-                Sampaikan aspirasimu.
-            </h2>
+            <h2 class="heading">Sampaikan aspirasimu.</h2>
 
             <p class="subheading">
                 Punya ide, masukan, atau sesuatu yang perlu diperbaiki?
                 Sampaikan di sini. Setiap suara punya arti.
             </p>
 
-
             <div class="form-card">
-
-                <form action="{{ route('aspirations.store') }}" method="POST">
-
+                <form
+                    action="{{ route('aspirations.store') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
                     @csrf
 
                     <div class="form-group">
-
-                        <label for="title">
-                            Judul Aspirasi
-                        </label>
-
+                        <label for="title">Judul Aspirasi</label>
                         <input
                             type="text"
                             id="title"
                             name="title"
+                            maxlength="255"
                             placeholder="Contoh: Tambah tempat sampah di kantin"
                             value="{{ old('title') }}"
                             required
                         >
-
                     </div>
 
-
                     <div class="form-group">
-
-                        <label for="category">
-                            Kategori
-                        </label>
+                        <label for="category">Kategori</label>
 
                         <select id="category" name="category" required>
-
-                            <option value="" disabled selected>
+                            <option value="" disabled {{ old('category') ? '' : 'selected' }}>
                                 Pilih kategori
                             </option>
 
-                            <option value="Fasilitas">
-                                Fasilitas
-                            </option>
-
-                            <option value="Kebersihan">
-                                Kebersihan
-                            </option>
-
-                            <option value="Kegiatan">
-                                Kegiatan
-                            </option>
-
-                            <option value="Keamanan">
-                                Keamanan
-                            </option>
-
-                            <option value="Lainnya">
-                                Lainnya
-                            </option>
-
+                            @foreach(['Fasilitas', 'Kebersihan', 'Kegiatan', 'Akademik', 'Keamanan', 'Lainnya'] as $category)
+                                <option
+                                    value="{{ $category }}"
+                                    {{ old('category') == $category ? 'selected' : '' }}
+                                >
+                                    {{ $category }}
+                                </option>
+                            @endforeach
                         </select>
-
                     </div>
 
-
                     <div class="form-group">
-
-                        <label for="description">
-                            Isi Aspirasi
-                        </label>
-
+                        <label for="description">Isi Aspirasi</label>
                         <textarea
                             id="description"
                             name="description"
                             placeholder="Ceritakan aspirasi atau masukanmu..."
                             required
                         >{{ old('description') }}</textarea>
-
                     </div>
 
+                    <div class="form-group">
+                        <label for="location">Lokasi (opsional)</label>
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            maxlength="255"
+                            placeholder="Contoh: kantin sekolah"
+                            value="{{ old('location') }}"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="evidence_photo">Foto Bukti (opsional)</label>
+                        <input
+                            type="file"
+                            id="evidence_photo"
+                            name="evidence_photo"
+                            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                        >
+                        <p class="hint">
+                            Format JPG, JPEG, atau PNG. Maksimal 2 MB.
+                        </p>
+                    </div>
 
                     <button type="submit" class="submit">
                         Kirim Aspirasi
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
-
-        <!-- LIST ASPIRASI -->
+        <!-- DAFTAR ASPIRASI -->
         <div>
-
-            <h2 class="heading">
-                Aspirasi siswa.
-            </h2>
+            <h2 class="heading">Aspirasi siswa.</h2>
 
             <p class="subheading">
                 Aspirasi yang sudah disampaikan beserta
-                perkembangan statusnya.
+                perkembangan status dan dukungannya.
             </p>
 
-
             <div class="list">
-
                 @forelse($aspirations as $aspiration)
-
                     <div class="aspiration">
-
                         <div class="top">
-
                             <span class="category">
                                 {{ $aspiration->category }}
                             </span>
 
-
                             @if($aspiration->status == 'Menunggu')
-
-                                <span class="status menunggu">
-                                    Menunggu
-                                </span>
-
+                                <span class="status menunggu">Menunggu</span>
                             @elseif($aspiration->status == 'Diproses')
-
-                                <span class="status diproses">
-                                    Diproses
-                                </span>
-
+                                <span class="status diproses">Diproses</span>
                             @else
-
-                                <span class="status selesai">
-                                    Selesai
-                                </span>
-
+                                <span class="status selesai">Selesai</span>
                             @endif
-
                         </div>
 
+                        <h3>{{ $aspiration->title }}</h3>
 
-                        <h3>
-                            {{ $aspiration->title }}
-                        </h3>
+                        <p>{{ $aspiration->description }}</p>
 
-                        <p>
-                            {{ $aspiration->description }}
-                        </p>
+                        <div class="extra-info">
+                            @if($aspiration->location)
+                                <p>
+                                    <strong>Lokasi:</strong>
+                                    {{ $aspiration->location }}
+                                </p>
+                            @endif
 
+                            @if($aspiration->evidence_photo)
+                                <p><strong>Foto bukti:</strong></p>
+                                <img
+                                    class="evidence"
+                                    src="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                                    alt="Foto bukti aspirasi"
+                                    loading="lazy"
+                                >
+                            @endif
+                        </div>
+
+                        <div class="card-actions">
+                            <!-- UPVOTE -->
+                            <form
+                                action="{{ route('aspirations.upvote', $aspiration->id) }}"
+                                method="POST"
+                            >
+                                @csrf
+
+                                <button type="submit" class="action-button">
+                                    ♡ Dukung ({{ $aspiration->votes }})
+                                </button>
+                            </form>
+
+                            <!-- EDIT DENGAN KODE RAHASIA -->
+                            <form
+                                action="{{ route('aspirations.edit', $aspiration->id) }}"
+                                method="GET"
+                            >
+                                <input
+                                    type="password"
+                                    name="code"
+                                    class="code-input"
+                                    placeholder="Kode edit rahasia"
+                                    aria-label="Kode edit rahasia"
+                                    required
+                                >
+
+                                <button type="submit" class="action-button">
+                                    Edit aspirasi
+                                </button>
+                            </form>
+                        </div>
                     </div>
-
                 @empty
-
                     <div class="empty">
                         Belum ada aspirasi yang masuk.
                     </div>
-
                 @endforelse
-
             </div>
-
         </div>
-
     </section>
-
 
     <!-- FOOTER -->
     <footer>
-
-        <div class="footer-logo">
-            SuaraKita.
-        </div>
-
-        <p>
-            Tempat untuk menyampaikan suara dan ide siswa.
-        </p>
-
+        <div class="footer-logo">SuaraKita.</div>
+        <p>Tempat untuk menyampaikan suara dan ide siswa.</p>
     </footer>
 
 </body>
