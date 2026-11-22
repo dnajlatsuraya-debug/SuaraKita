@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,18 +65,17 @@
             font-weight: 600;
         }
 
-        .logout-button:hover {
-            background: #efdada;
-        }
-
         .container {
             width: 88%;
             max-width: 1100px;
             margin: 55px auto 75px;
         }
 
-        h1 {
+        h1, h2, .report-number {
             font-family: 'Lora', serif;
+        }
+
+        h1 {
             font-size: 36px;
             font-weight: 600;
             margin-bottom: 10px;
@@ -106,6 +104,85 @@
         .error {
             background: #fff0ed;
             color: #a34f40;
+        }
+
+        .report-title {
+            font-family: 'Lora', serif;
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .report-card {
+            background: #e4ede2;
+            border: 1px solid #d7e3d5;
+            border-radius: 18px;
+            padding: 23px;
+        }
+
+        .report-card p {
+            color: #54735e;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .report-number {
+            color: #315b43;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .report-note {
+            color: #737b75;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        /* TOMBOL LAPORAN */
+        .report-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 38px;
+        }
+
+        .report-button {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .pdf-button {
+            background: #315b43;
+            color: white;
+        }
+
+        .excel-button {
+            background: #e4ede2;
+            color: #315b43;
+            border: 1px solid #d7e3d5;
+        }
+
+        .report-button:hover {
+            opacity: 0.85;
+        }
+
+        .list-title {
+            font-family: 'Lora', serif;
+            font-size: 24px;
+            margin-bottom: 17px;
         }
 
         .card {
@@ -159,7 +236,6 @@
         }
 
         h2 {
-            font-family: 'Lora', serif;
             font-size: 22px;
             font-weight: 600;
             margin-bottom: 10px;
@@ -178,7 +254,7 @@
             color: #68756b;
             font-size: 12px;
             line-height: 1.8;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             overflow-wrap: anywhere;
         }
 
@@ -188,6 +264,19 @@
             max-height: 280px;
             border-radius: 12px;
             margin-top: 8px;
+            cursor: zoom-in;
+            object-fit: contain;
+        }
+
+        .photo-link {
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .photo-hint {
+            color: #54735e;
+            font-size: 11px;
+            margin-top: 5px;
         }
 
         .status-heading {
@@ -234,26 +323,9 @@
             color: white;
         }
 
-        .status-button:hover {
-            background: #264a35;
-        }
-
-        .edit-button {
-            background: #e8eee8;
-            color: #315b43;
-        }
-
-        .edit-button:hover {
-            background: #dce7dc;
-        }
-
         .delete-button {
             background: #f5e5e5;
             color: #9a4545;
-        }
-
-        .delete-button:hover {
-            background: #efdada;
         }
 
         .actions {
@@ -264,6 +336,11 @@
             padding-top: 17px;
             border-top: 1px solid #edf0e9;
             flex-wrap: wrap;
+        }
+
+        .edit-button {
+            background: #e8eee8;
+            color: #315b43;
         }
 
         .empty {
@@ -299,14 +376,6 @@
                 padding: 14px 5%;
             }
 
-            .nav-right {
-                gap: 12px;
-            }
-
-            .home-link {
-                font-size: 12px;
-            }
-
             .container {
                 width: 92%;
                 margin-top: 35px;
@@ -320,8 +389,8 @@
                 padding: 20px;
             }
 
-            h2 {
-                font-size: 20px;
+            .report-grid {
+                grid-template-columns: 1fr;
             }
 
             .status-area {
@@ -332,6 +401,14 @@
             .status-area select,
             .status-area button {
                 width: 100%;
+            }
+
+            .report-actions {
+                flex-direction: column;
+            }
+
+            .report-button {
+                text-align: center;
             }
         }
 
@@ -349,7 +426,6 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <nav>
         <div class="logo">SuaraKita.</div>
 
@@ -360,15 +436,11 @@
 
             <form action="{{ route('admin.logout') }}" method="POST">
                 @csrf
-
-                <button type="submit" class="logout-button">
-                    Logout
-                </button>
+                <button type="submit" class="logout-button">Logout</button>
             </form>
         </div>
     </nav>
 
-    <!-- KONTEN -->
     <main class="container">
 
         <h1>Kelola Aspirasi</h1>
@@ -377,21 +449,14 @@
             Kelola aspirasi siswa dan perbarui status perkembangannya.
         </p>
 
-        <!-- PESAN SUKSES -->
         @if(session('success'))
-            <div class="message success">
-                {{ session('success') }}
-            </div>
+            <div class="message success">{{ session('success') }}</div>
         @endif
 
-        <!-- PESAN ERROR -->
         @if(session('error'))
-            <div class="message error">
-                {{ session('error') }}
-            </div>
+            <div class="message error">{{ session('error') }}</div>
         @endif
 
-        <!-- VALIDASI -->
         @if($errors->any())
             <div class="message error">
                 <ul>
@@ -402,7 +467,54 @@
             </div>
         @endif
 
+        <!-- LAPORAN ASPIRASI -->
+        <h2 class="report-title">Laporan Aspirasi</h2>
+
+        <div class="report-grid">
+            <div class="report-card">
+                <p>Aspirasi Hari Ini</p>
+                <div class="report-number">{{ $dailyReport }}</div>
+                <div class="report-note">Jumlah aspirasi yang masuk hari ini</div>
+            </div>
+
+            <div class="report-card">
+                <p>Aspirasi Bulan Ini</p>
+                <div class="report-number">{{ $monthlyReport }}</div>
+                <div class="report-note">Jumlah aspirasi yang masuk bulan ini</div>
+            </div>
+        </div>
+
+        <!-- TOMBOL EXPORT LAPORAN -->
+        <div class="report-actions">
+
+            <a
+                href="{{ route('aspirations.report', [
+                    'month' => now()->month,
+                    'year' => now()->year,
+                    'print' => 1
+                ]) }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="report-button pdf-button"
+            >
+                Lihat / Cetak Laporan PDF →
+            </a>
+
+            <a
+                href="{{ route('aspirations.report.excel', [
+                    'month' => now()->month,
+                    'year' => now()->year
+                ]) }}"
+                class="report-button excel-button"
+            >
+                Export Excel ↓
+            </a>
+
+        </div>
+
         <!-- DAFTAR ASPIRASI -->
+        <h2 class="list-title">Daftar Aspirasi Siswa</h2>
+
         @forelse($aspirations as $aspiration)
 
             <article class="card">
@@ -427,38 +539,39 @@
                     {{ $aspiration->description }}
                 </p>
 
-                <!-- LOKASI DAN FOTO BUKTI -->
-                @if($aspiration->location || $aspiration->evidence_photo)
-                    <div class="extra-info">
+                <div class="extra-info">
 
-                        @if($aspiration->location)
-                            <p>
-                                <strong>Lokasi:</strong>
-                                {{ $aspiration->location }}
-                            </p>
-                        @endif
+                    @if($aspiration->location)
+                        <p>
+                            <strong>Lokasi:</strong>
+                            {{ $aspiration->location }}
+                        </p>
+                    @endif
 
-                        @if($aspiration->evidence_photo)
-                            <p><strong>Foto bukti:</strong></p>
+                    @if($aspiration->evidence_photo)
+                        <p><strong>Foto bukti:</strong></p>
 
-                            <a
-                                href="{{ asset('storage/' . $aspiration->evidence_photo) }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                        <a
+                            href="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="photo-link"
+                        >
+                            <img
+                                src="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                                alt="Foto bukti aspirasi"
+                                class="evidence"
+                                loading="lazy"
                             >
-                                <img
-                                    src="{{ asset('storage/' . $aspiration->evidence_photo) }}"
-                                    alt="Foto bukti aspirasi"
-                                    class="evidence"
-                                    loading="lazy"
-                                >
-                            </a>
-                        @endif
+                            <p class="photo-hint">Klik foto untuk melihat ukuran lebih besar.</p>
+                        </a>
+                    @else
+                        <p>Belum ada foto bukti.</p>
+                    @endif
 
-                    </div>
-                @endif
+                </div>
 
-                <!-- FORM UBAH STATUS -->
+                <!-- UBAH STATUS -->
                 <form
                     action="{{ route('aspirations.updateStatus', $aspiration->id) }}"
                     method="POST"
@@ -476,24 +589,18 @@
                             name="status"
                             required
                         >
-                            <option
-                                value="Menunggu"
-                                {{ $aspiration->status === 'Menunggu' ? 'selected' : '' }}
-                            >
+                            <option value="Menunggu"
+                                {{ $aspiration->status === 'Menunggu' ? 'selected' : '' }}>
                                 Menunggu
                             </option>
 
-                            <option
-                                value="Diproses"
-                                {{ $aspiration->status === 'Diproses' ? 'selected' : '' }}
-                            >
+                            <option value="Diproses"
+                                {{ $aspiration->status === 'Diproses' ? 'selected' : '' }}>
                                 Diproses
                             </option>
 
-                            <option
-                                value="Selesai"
-                                {{ $aspiration->status === 'Selesai' ? 'selected' : '' }}
-                            >
+                            <option value="Selesai"
+                                {{ $aspiration->status === 'Selesai' ? 'selected' : '' }}>
                                 Selesai
                             </option>
                         </select>
@@ -504,24 +611,20 @@
                     </div>
                 </form>
 
-                <!-- AKSI -->
                 <div class="actions">
 
-                    <!-- EDIT -->
                     <a
                         href="{{ route('aspirations.index') }}#kirim"
                         class="edit-button"
-                        title="Form edit membutuhkan kode rahasia dari pemilik aspirasi"
                     >
                         ← Ke Form Aspirasi
                     </a>
 
-                    <!-- HAPUS HANYA JIKA SELESAI -->
                     @if($aspiration->status === 'Selesai')
                         <form
                             action="{{ route('aspirations.destroy', $aspiration->id) }}"
                             method="POST"
-                            onsubmit="return confirm('Yakin ingin menghapus aspirasi yang sudah selesai ini?')"
+                            onsubmit="return confirm('Yakin ingin menghapus aspirasi ini?')"
                         >
                             @csrf
                             @method('DELETE')
@@ -550,12 +653,10 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-logo">SuaraKita.</div>
         <p>Kelola aspirasi untuk lingkungan sekolah yang lebih baik.</p>
     </footer>
 
 </body>
-
 </html>
