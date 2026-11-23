@@ -1,0 +1,21 @@
+{
+    frankenphp
+    order php_server before file_server
+}
+
+:{$PORT:8080} {
+    root * /app/public
+    encode zstd br gzip
+
+    php_server {
+        root /app/public
+        resolve_root_symlink
+    }
+
+    file_server
+
+    log {
+        output stdout
+        format console
+    }
+}
