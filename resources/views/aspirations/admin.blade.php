@@ -548,17 +548,17 @@
                         </p>
                     @endif
 
-                    @if($aspiration->evidence_photo)
+                    @if($aspiration->photo_url)
                         <p><strong>Foto bukti:</strong></p>
 
                         <a
-                            href="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                            href="{{ $aspiration->photo_url }}"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="photo-link"
                         >
                             <img
-                                src="{{ asset('storage/' . $aspiration->evidence_photo) }}"
+                                src="{{ $aspiration->photo_url }}"
                                 alt="Foto bukti aspirasi"
                                 class="evidence"
                                 loading="lazy"

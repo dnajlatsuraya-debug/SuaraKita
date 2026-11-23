@@ -39,8 +39,7 @@ class AspirationController extends Controller
         $photoPath = null;
 
         if ($request->hasFile('evidence_photo')) {
-            $photoPath = $request->file('evidence_photo')
-                ->store('aspirations', 'public');
+            $photoPath = $this->uploadPersistentPhoto($request->file('evidence_photo'));
         }
 
         // Membuat kode rahasia untuk mengedit aspirasi
@@ -182,14 +181,13 @@ class AspirationController extends Controller
 
         if ($request->hasFile('evidence_photo')) {
 
-            // Menghapus foto lama
-            if ($photoPath) {
+            // Menghapus foto lama di local disk jika bukan URL eksternal
+            if ($photoPath && !filter_var($photoPath, FILTER_VALIDATE_URL)) {
                 Storage::disk('public')->delete($photoPath);
             }
 
-            // Menyimpan foto baru
-            $photoPath = $request->file('evidence_photo')
-                ->store('aspirations', 'public');
+            // Menyimpan foto baru secara persisten
+            $photoPath = $this->uploadPersistentPhoto($request->file('evidence_photo'));
         }
 
         $aspiration->update([
@@ -380,6 +378,43 @@ public function report(Request $request)
         }, $filename, [
             'Content-Type' => 'text/csv; charset=UTF-8'
         ]);
+    }
+
+    /**
+     * Upload foto secara persisten menggunakan FreeImage.host CDN
+     * dengan fallback ke local public disk jika koneksi eksternal terkendala.
+     */
+    private function uploadPersistentPhoto($file): ?string
+    {
+        try {
+            $apiKey = '6d207e02198a847aa98d0a2a901485a5';
+            $ch = curl_init('https://freeimage.host/api/1/upload');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                'key' => $apiKey,
+                'action' => 'upload',
+                'source' => new \CURLFile($file->getRealPath(), $file->getMimeType(), $file->getClientOriginalName()),
+                'format' => 'json',
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 200 && $response) {
+                $data = json_decode($response, true);
+                if (!empty($data['image']['url'])) {
+                    return $data['image']['url'];
+                }
+            }
+        } catch (\Throwable $e) {
+            // Silently fallback to local storage
+        }
+
+        return $file->store('aspirations', 'public');
     }
 
 }

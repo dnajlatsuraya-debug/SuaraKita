@@ -390,8 +390,77 @@
             display: block;
             max-width: 100%;
             max-height: 220px;
+            object-fit: cover;
             margin-top: 8px;
             border-radius: 12px;
+            border: 1px solid #e2ebd8;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .evidence:hover {
+            opacity: 0.92;
+            transform: scale(1.01);
+        }
+
+        .photo-container {
+            display: inline-block;
+            position: relative;
+            text-decoration: none;
+            max-width: 100%;
+        }
+
+        .photo-hint {
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 11px;
+            color: #55755e;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* LIGHTBOX MODAL */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(18, 30, 23, 0.88);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            cursor: zoom-out;
+        }
+
+        .photo-modal.active {
+            display: flex;
+        }
+
+        .photo-modal img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            cursor: default;
+        }
+
+        .photo-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: none;
+            line-height: 1;
         }
 
         .card-actions {
@@ -764,14 +833,20 @@
                                 </p>
                             @endif
 
-                            @if($aspiration->evidence_photo)
+                            @if($aspiration->photo_url)
                                 <p><strong>Foto bukti:</strong></p>
-                                <img
-                                    class="evidence"
-                                    src="{{ asset('storage/' . $aspiration->evidence_photo) }}"
-                                    alt="Foto bukti aspirasi"
-                                    loading="lazy"
-                                >
+                                <div class="photo-container">
+                                    <img
+                                        class="evidence"
+                                        src="{{ $aspiration->photo_url }}"
+                                        alt="Foto bukti aspirasi"
+                                        loading="lazy"
+                                        onclick="openPhotoModal('{{ $aspiration->photo_url }}')"
+                                    >
+                                    <span class="photo-hint" onclick="openPhotoModal('{{ $aspiration->photo_url }}')">
+                                        🔍 Klik foto untuk memperbesar
+                                    </span>
+                                </div>
                             @endif
                         </div>
 
@@ -822,6 +897,40 @@
         <div class="footer-logo">SuaraKita.</div>
         <p>Tempat untuk menyampaikan suara dan ide siswa.</p>
     </footer>
+
+    <!-- LIGHTBOX MODAL UNTUK MELIHAT FOTO UKURAN BESAR -->
+    <div id="photoLightbox" class="photo-modal" onclick="closePhotoModal(event)">
+        <button class="photo-modal-close" onclick="closePhotoModal(event)" aria-label="Tutup">&times;</button>
+        <img id="photoLightboxImg" src="" alt="Foto Bukti Ukuran Penuh" onclick="event.stopPropagation()">
+    </div>
+
+    <script>
+        function openPhotoModal(url) {
+            const modal = document.getElementById('photoLightbox');
+            const img = document.getElementById('photoLightboxImg');
+            if (modal && img) {
+                img.src = url;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closePhotoModal(event) {
+            const modal = document.getElementById('photoLightbox');
+            const img = document.getElementById('photoLightboxImg');
+            if (modal) {
+                modal.classList.remove('active');
+                if (img) img.src = '';
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
+    </script>
 
 </body>
 </html>
