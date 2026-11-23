@@ -381,23 +381,26 @@ public function report(Request $request)
     }
 
     /**
-     * Upload foto secara persisten menggunakan FreeImage.host CDN
+     * Upload foto secara persisten menggunakan Imgur CDN (Direct Link)
      * dengan fallback ke local public disk jika koneksi eksternal terkendala.
      */
     private function uploadPersistentPhoto($file): ?string
     {
         try {
-            $apiKey = '6d207e02198a847aa98d0a2a901485a5';
-            $ch = curl_init('https://freeimage.host/api/1/upload');
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $clientId = '546c25a59c58ad7'; // Anonymous Imgur Client ID
+
+            $ch = curl_init('https://api.imgur.com/3/image');
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
             curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Client-ID ' . $clientId,
+            ]);
             curl_setopt($ch, CURLOPT_POSTFIELDS, [
-                'key' => $apiKey,
-                'action' => 'upload',
-                'source' => new \CURLFile($file->getRealPath(), $file->getMimeType(), $file->getClientOriginalName()),
-                'format' => 'json',
+                'image' => $base64,
+                'type' => 'base64',
             ]);
 
             $response = curl_exec($ch);
@@ -406,8 +409,8 @@ public function report(Request $request)
 
             if ($httpCode === 200 && $response) {
                 $data = json_decode($response, true);
-                if (!empty($data['image']['url'])) {
-                    return $data['image']['url'];
+                if (!empty($data['data']['link'])) {
+                    return $data['data']['link'];
                 }
             }
         } catch (\Throwable $e) {
