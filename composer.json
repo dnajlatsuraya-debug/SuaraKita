@@ -80,7 +80,9 @@
                 "laravel/pail",
                 "laravel/pao",
                 "laravel/mcp",
-                "laravel/roster"
+                "laravel/roster",
+                "nunomaduro/collision",
+                "pestphp/pest-plugin-laravel"
             ]
         }
     },
