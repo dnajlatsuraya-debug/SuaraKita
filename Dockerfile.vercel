@@ -12,7 +12,7 @@ RUN composer install \
     --no-dev
 
 COPY . .
-RUN composer dump-autoload --optimize --no-dev
+RUN composer dump-autoload --optimize --no-dev --no-scripts
 
 # Frontend build
 FROM node:20-alpine AS frontend
@@ -43,6 +43,8 @@ COPY --from=frontend /app/public/build /app/public/build
 COPY Caddyfile /etc/caddy/Caddyfile
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+RUN php artisan package:discover --ansi || true
 
 RUN mkdir -p \
     /app/storage/framework/sessions \

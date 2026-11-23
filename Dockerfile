@@ -14,7 +14,7 @@ RUN composer install \
     --no-dev
 
 COPY . .
-RUN composer dump-autoload --optimize --no-dev
+RUN composer dump-autoload --optimize --no-dev --no-scripts
 
 # Frontend build
 FROM node:20-alpine AS frontend
@@ -48,6 +48,9 @@ COPY Caddyfile /etc/caddy/Caddyfile
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Run package discover inside the runner stage where all PHP extensions are present
+RUN php artisan package:discover --ansi || true
+
 # Ensure storage directories exist and are writable
 RUN mkdir -p \
     /app/storage/framework/sessions \
@@ -61,3 +64,4 @@ EXPOSE 8080
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+
