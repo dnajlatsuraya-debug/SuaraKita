@@ -14,6 +14,7 @@ chmod -R 777 /app/storage /app/bootstrap/cache /app/database 2>/dev/null || true
 
 # Jalankan migrasi dan seeder bila belum ada
 php artisan migrate --force --no-interaction || true
+php artisan db:seed --force --no-interaction || true
 
 # Pastikan storage symlink terpasang
 php artisan storage:link 2>/dev/null || true
