@@ -28,12 +28,6 @@ FROM dunglas/frankenphp:1-php8.3-bookworm AS runner
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
-ENV VIEW_COMPILED_PATH=/tmp/views
-ENV APP_CONFIG_CACHE=/tmp/config.php
-ENV APP_EVENTS_CACHE=/tmp/events.php
-ENV APP_PACKAGES_CACHE=/tmp/packages.php
-ENV APP_ROUTES_CACHE=/tmp/routes.php
-ENV APP_SERVICES_CACHE=/tmp/services.php
 
 WORKDIR /app
 
