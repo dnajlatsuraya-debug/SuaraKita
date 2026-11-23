@@ -36,6 +36,7 @@ WORKDIR /app
 # Copy application source code & dependencies
 COPY --from=vendor /app /app
 COPY --from=frontend /app/public/build /app/public/build
+RUN rm -f /app/public/hot
 
 # Copy runtime entrypoint & Caddy config
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -33,6 +33,7 @@ WORKDIR /app
 
 COPY --from=vendor /app /app
 COPY --from=frontend /app/public/build /app/public/build
+RUN rm -f /app/public/hot
 
 COPY Caddyfile /etc/caddy/Caddyfile
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
